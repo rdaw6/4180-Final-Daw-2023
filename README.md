@@ -26,10 +26,10 @@ The vehicle will be controlled via the adafruit bluefruit bluetooth module coonn
 #### Directional Controls
 | Button      | Translational | Diagonal | Tank | Driving |
 | ----------- | ----------- | ----------- | -------- | -------- |
-| Up          | Forward       |Title       |Title       |Title       |
-| Down        | Backward        |Title       |Title       |Title       |
-| Right       | Right Linear        |Title       |Title       |Title       |
-| Left        | Left Linear      |Title       |Title       |Title       |
+| Up          | Forward     |Forward/Left|Forward      |Forward       |
+| Down        | Backward    |Backward/Right|Backward       |Backward       |
+| Right       | Right Linear|Forward/Right|Clockwise Rotate |Right Turn      |
+| Left        | Left Linear |Backward/Left|Counterclockwise Rotate|Left Turn       |
 #### Number Pad Controls
 | Number Pad      | Function
 | ----------- | ----------- | 
