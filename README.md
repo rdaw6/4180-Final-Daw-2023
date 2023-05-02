@@ -64,6 +64,7 @@ The vehicle will be controlled via the Adafruit Bluefruit Bluetooth module coonn
 | Jumper Wires | Many |
 
  [Kit We Used](https://www.amazon.com/dp/B084TNLFYB)
+ Includes Chassis, 4x Motors, 4x Mecanum Wheels
 
 
 ## Wiring Guide
