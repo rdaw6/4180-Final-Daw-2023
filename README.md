@@ -1,6 +1,6 @@
 # Mecanum Drive Tank
 ## ECE 4180 Final Project S23
-### Oscar Baglivio, Ray Daw, Yunhao Hu, Steven Zhao
+### Oscar Baglivio (A), Ray Daw (B), Yunhao Hu (A), Steven Zhao (A)
 
 **Mecanum Drive Wheels** are designed similarly to tank wheels, allowing our vehicle to move forward and backward, as well as turn, but what makes them unique is the added ability to "strafe" or move side to side. This is thanks to the diagonal rollers, meaning that the wheels can exert force in the diagonal direction. With the proper combination of these forces, our vehicle can move **forward, backward, left, right**, as well as **rotate** about the **center** or **edge** of the vehicle.
 
