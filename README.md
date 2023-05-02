@@ -138,6 +138,7 @@ Accelerometer Mode uses the tilt direction of your phone to move in that directi
 
 ### Note
 Reccomended to put large capactior (~100uF to 1000uF) across 9V & GND to help with large current spikes when suddenly reversing a motor.
+Mecanum wheels must be placed such that the axis of the rollers form an "X" shape.
 
 ## Video Demonstrations
  [Control Demonstration](https://youtu.be/6uEOdRfjCMo)
