@@ -107,6 +107,9 @@ The vehicle will be controlled via the Adafruit Bluefruit Bluetooth module coonn
 | PWMB | P21 |
 | GND | GND |
 
+### Note
+Reccomended to put large capactior (~100uF to 1000uF) across 9V & GND to help with large current spikes when suddenly reversing a motor.
+
 ## Video Demonstrations
  [Control Demonstration](https://youtu.be/6uEOdRfjCMo)
   
