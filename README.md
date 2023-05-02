@@ -44,21 +44,6 @@ The vehicle will be controlled via the Adafruit Bluefruit Bluetooth module coonn
 | 4           | Inrease Speed   |    
 
 ## Video Demonstrations
-<iframe
-    width="640"
-    height="480"
-    src="https://www.youtube.com/embed/UmX4kyB2wfg"
-    frameborder="0"
-    allow="autoplay; encrypted-media"
-    allowfullscreen
->
-</iframe>
-<iframe
-    width="640"
-    height="480"
-    src="https://www.youtube.com/embed/UmX4kyB2wfg"
-    frameborder="0"
-    allow="autoplay; encrypted-media"
-    allowfullscreen
->
-</iframe>
+ [Control Demonstration](https://youtu.be/6uEOdRfjCMo)
+  
+ [LCD Demonstration](https://youtu.be/_klWCWm-qnU)
