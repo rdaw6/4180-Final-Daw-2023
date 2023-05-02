@@ -43,6 +43,25 @@ The vehicle will be controlled via the Adafruit Bluefruit Bluetooth module coonn
 | 3           | Decrease Speed |
 | 4           | Inrease Speed   |    
 
+## Wiring Guide
+### Bluefruit
+| Bluefruit Pin | mbed/Other Pin |
+| ------------- | -------- |
+| CTS           | GND      |
+| TX            | P27      |
+| RX            | P28      |
+| VIN           | 6V (4x AA Battery) |
+| GND           | GND |
+
+### uLCD
+| uLCD Pin | mbed/Other Pin |
+| -------- | -------------- |
+| 5V       | 6V (4x AA Battery) |
+| TX       | P10            |
+| RX       | P9             |
+| GND      | GND            |
+| RES      | P11            |
+
 ## Video Demonstrations
  [Control Demonstration](https://youtu.be/6uEOdRfjCMo)
   
