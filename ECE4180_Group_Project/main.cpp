@@ -1,5 +1,6 @@
 #include "mbed.h"
 #include "Motor.h"
+#include "uLCD_4DGL.h"
 #include <cmath>
 
 // define HW components
@@ -8,6 +9,7 @@ Motor FL(p24, p13, p14);
 Motor BL(p23, p15, p16);
 Motor FR(p22, p17, p18);
 Motor BR(p21, p19, p20);
+uLCD_4DGL uLCD(p9,p10,p11); // serial tx, serial rx, reset pin;
 
 // DEFINITIONS
 
@@ -55,7 +57,7 @@ int CCLT[4] = {2,1,2,1}; // counter clockwise left turn
 int CRT[4]  = {1,2,1,2}; // clockwise right turn
 
 // enum type definitions
-enum dpad {NONE_DPAD, UP, DOWN, LEFT, RIGHT};
+enum dpad {NONE_DPAD, UP_DPAD, DOWN_DPAD, LEFT, RIGHT};
 enum face_button {NONE_FACE, ONE, TWO, THREE, FOUR};
 
 
@@ -65,7 +67,8 @@ const int NUM_MODES = 5;
 // VARIABLES
 
 // enum variables
-enum dpad direction_pressed;
+enum dpad direction_pressed = NONE_DPAD;
+enum dpad prior_direction_pressed;
 enum face_button face_button_pressed;
 
 // boolean variables
@@ -73,7 +76,9 @@ bool accelMode = false;
 
 // int variables
 int mode = TRANSLATION; //default state/mode
+int prior_mode; // to force translation
 int* motor_state;
+int counter = 0;
 
 // float variable
 float motor_speeds[4] = {0.0, 0.0, 0.0, 0.0};
@@ -83,7 +88,132 @@ float accelMag = 0.0;
 float FLBR = 0.0;
 float FRBL = 0.0;
 
+union f_or_char x,y,z;
+
 // FUNCTIONS
+
+void translation_display(int direction){
+
+    //text
+    uLCD.locate(3, 6);
+    uLCD.text_height(2);
+    uLCD.printf("Translational");
+
+    direction--; // decrement b/c we added the NONE_DPAD state in the front of the enum
+    printf("Direction: %d\n\r", direction);
+    if(direction == 0){
+        uLCD.triangle(62, 1, 50, 13, 74, 13, WHITE); // UP_DPAD
+    }
+    else if(direction == 2){
+        uLCD.triangle(1, 62, 13, 50, 13, 74, WHITE); //left
+    }
+    else if(direction == 3){
+        uLCD.triangle(124, 62, 112, 74, 112, 50, WHITE); //right
+    }
+    else if(direction == 1){
+        uLCD.triangle(62, 124, 50, 112, 74, 112, WHITE); //down
+    }
+
+}
+
+void diagonal_display(int direction){
+    //text
+    uLCD.locate(5,6);
+    uLCD.text_height(2);
+    uLCD.text_width(1);
+    uLCD.printf("Diagonal");
+
+    direction--; // decrement b/c we added the NONE_DPAD state in the front of the enum
+    if(direction == 0){
+         uLCD.triangle(1, 1, 25, 1, 1, 25, WHITE); //UP_DPADper left
+    }
+    else if(direction == 3){
+        uLCD.triangle(124, 1, 100, 1, 124, 25, WHITE); //UP_DPADper right
+    }
+    else if(direction == 2){
+        uLCD.triangle(1, 124, 1, 100, 25, 124, WHITE); //lower left
+    }
+    else if(direction == 1){
+        uLCD.triangle(124, 124, 124, 100, 100, 124, WHITE); // lower right
+    }
+
+}
+
+void tank_display(int direction){
+    direction--; // decrement b/c we added the NONE_DPAD state in the front of the enum
+    if(direction == 0){
+        uLCD.triangle(62, 1, 50, 13, 74, 13, WHITE); // UP_DPAD
+    }
+    else if(direction == 1){
+        uLCD.triangle(62, 124, 50, 112, 74, 112, WHITE); //DOWN_DPAD
+    }
+    else if(direction == 3){
+        uLCD.circle(60, 60, 30, GREEN); //CW
+        uLCD.filled_rectangle(30, 60, 90, 90, BLACK);
+        uLCD.triangle(90, 72, 78, 60, 102, 60, GREEN);
+        
+    }
+    else if(direction == 2){
+        uLCD.circle(60, 60, 30, RED); //CCW
+        uLCD.filled_rectangle(30, 60, 90, 90, BLACK);
+        uLCD.triangle(30, 72, 18, 60, 42, 60, RED);
+    }
+    uLCD.locate(6,6);
+    uLCD.text_height(2);
+    uLCD.text_width(1);
+    uLCD.printf("Tank");
+
+}
+
+void driving_display(int direction){
+    //directions
+    direction--; // decrement b/c we added the NONE_DPAD state in the front of the enum
+    if(direction == 1){
+        uLCD.triangle(62, 124, 50, 112, 74, 112, WHITE); //UP_DPAD
+    }
+    else if(direction == 0){
+        uLCD.triangle(62, 1, 50, 13, 74, 13, WHITE); // DOWN_DPAD
+    }
+    else if(direction == 3){
+        uLCD.circle(60, 60, 30, GREEN); //Right turn
+        uLCD.filled_rectangle(30, 60, 90, 90, BLACK);
+        uLCD.filled_rectangle(60, 60, 90, 30, BLACK);
+        uLCD.triangle(60, 18, 60, 42, 72, 30, GREEN);
+    }
+    else if(direction == 2){
+        uLCD.circle(60, 60, 30, RED); //Left turn
+        uLCD.filled_rectangle(30, 60, 90, 90, BLACK);
+        uLCD.filled_rectangle(60, 60, 30, 30, BLACK);
+        uLCD.triangle(60, 18, 60, 42, 48, 30, RED);
+    }
+    uLCD.locate(5,6);
+    uLCD.text_height(2);
+    uLCD.text_width(1);
+    uLCD.printf("Driving");
+}
+void accel_display() {
+    float xLine = x.f * 64 + 64;
+    float yLine = -(y.f * 64) + 64;
+    uLCD.line(64, 64, xLine, yLine, GREEN);
+}
+
+void lcd_update(int mode, int direction){
+    if (mode == 0){
+        translation_display(direction);
+    }
+    else if(mode == 1){
+        diagonal_display(direction);
+    }
+    else if(mode == 2){
+        tank_display(direction);
+    }
+    else if(mode == 3){
+        driving_display(direction);
+    }
+    else if(mode == 4) {
+        accel_display();
+    }
+}
 
 // TBD
 void indicateError() {
@@ -98,7 +228,6 @@ void readButtonInputs() {
     char inType = 0;
     char bchecksum=0;
     char temp=0;
-    union f_or_char x,y,z;
     bchecksum=0;
     if (blue.getc() == '!') {
         inType = blue.getc();
@@ -137,14 +266,14 @@ void readButtonInputs() {
                         break;
                     case '5':
                         if (bhit == '1') {
-                            direction_pressed = UP;
+                            direction_pressed = UP_DPAD;
                         } else {
                             direction_pressed = NONE_DPAD;
                         }
                         break;
                     case '6': 
                         if (bhit == '1') {
-                            direction_pressed = DOWN;
+                            direction_pressed = DOWN_DPAD;
                         } else {
                             direction_pressed = NONE_DPAD;
                         }
@@ -205,7 +334,6 @@ void readButtonInputs() {
     }
 }
 
-
 void updateMode() {
     // dont toggle when testing just one mode
     // this toggle is pretty much the state machine
@@ -220,11 +348,11 @@ void updateMode() {
                     // no motion
                     motor_state = &NM[0];
                     break;
-                case UP:
+                case UP_DPAD:
                     // forward linear motion
                     motor_state = &FLM[0];
                     break;
-                case DOWN:
+                case DOWN_DPAD:
                     // backward linear motion
                     motor_state = &BLM[0];
                     break;
@@ -250,11 +378,11 @@ void updateMode() {
                     // no motion
                     motor_state = &NM[0];
                     break;
-                case UP:
+                case UP_DPAD:
                     // forward left diagonal
                     motor_state = &FLD[0];
                     break;
-                case DOWN:
+                case DOWN_DPAD:
                     // backward right diagonal
                     motor_state = &BRD[0];
                     break;
@@ -280,11 +408,11 @@ void updateMode() {
                     // no motion
                     motor_state = &NM[0];
                     break;
-                case UP:
+                case UP_DPAD:
                     // forward linear motion
                     motor_state = &FLM[0];
                     break;
-                case DOWN:
+                case DOWN_DPAD:
                     // backward linear motion
                     motor_state = &BLM[0];
                     break;
@@ -311,11 +439,11 @@ void updateMode() {
                     // no motion
                     motor_state = &NM[0];
                     break;
-                case UP:
+                case UP_DPAD:
                     // forward linear motion
                     motor_state = &FLM[0];
                     break;
-                case DOWN:
+                case DOWN_DPAD:
                     // backward linear motion
                     motor_state = &BLM[0];
                     break;
@@ -398,19 +526,35 @@ void setMotors() {
 
 int main() {
     // initialize things here if needed (global vars generally preffered)
-    int command;
-
+    //int command;
+    uLCD.color(GREEN);
+    /*for(int i=0; i<4; i++){
+        for(int n=0; n<4; n++){
+            lcd_UP_DPADdate(i, n);
+            wait(1.0);
+            uLCD.cls();
+        }
+    }*/
+    lcd_update(0, NONE_DPAD);
     // primary loop
     while(1) {
+        prior_direction_pressed = direction_pressed;
         readButtonInputs();
+        prior_mode = mode;
         updateMode();
-        printf("Dir:  %i, ", (int) direction_pressed);
+        /*printf("Dir:  %i, ", (int) direction_pressed);
         printf("Face: %i\n\r", (int) face_button_pressed);
         printf("Mode: %i\n\r", (int) mode);
         printf("Input: %f\n\r", accelInput);
-        printf("Output: %f, %f\n\r", FLBR, FRBL);
+        printf("Output: %f, %f\n\r", FLBR, FRBL);*/
         setMotors();
         face_button_pressed = NONE_FACE;
+        // check if mode or direction has changed
+        if ((mode != prior_mode) || (direction_pressed != prior_direction_pressed) || (accelMode)) {
+            printf("LCD update\n\r");
+            uLCD.cls();
+            lcd_update(mode, (int) direction_pressed);
+        }
     }
     
 }
