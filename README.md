@@ -44,6 +44,11 @@ The vehicle will be controlled via the Adafruit Bluefruit Bluetooth module coonn
 | 4           | Inrease Speed   |    
 
 ## Wiring Guide
+### mbed
+| mbed Pin | Voltage Source |
+| -------- | -------------- |
+| Vin | 6V (4x AA Battery) |
+
 ### Bluefruit
 | Bluefruit Pin | mbed/Other Pin |
 | ------------- | -------- |
