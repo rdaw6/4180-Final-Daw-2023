@@ -43,6 +43,27 @@ The vehicle will be controlled via the Adafruit Bluefruit Bluetooth module coonn
 | 3           | Decrease Speed |
 | 4           | Inrease Speed   |    
 
+## Parts List
+| Part | Count |
+| ---- | ----- |
+| mbed LPC1768 | 1 |
+| uLCD-144-G2 | 1 |
+| uLCD Ribbon Cable | 1 |
+| Dual H Bridge Breakout Board (TB6612FNG) | 2 |
+| Adafruit Bluefruit LE UART Friend | 1 |
+| DC Gearbox Motor (TT Motor) | 4 |
+| Mecanum Wheel | 4 |
+| Small Breadboard | 2 |
+| Barrel Jack | 2 |
+| AA Battery (1.5V) | 4 |
+| 4x AA Battery Holder | 1 |
+| 9V Battery | 1 |
+| 9V Battery Holder | 1 |
+| 1000uF Electrolytic Capacitor | 1 |
+| Chassis | 1 |
+| Jumper Wires | Many |
+
+
 ## Wiring Guide
 ### mbed
 | mbed Pin | Voltage Source |
