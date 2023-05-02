@@ -1,8 +1,8 @@
-# Mechanum Drive Tank
+# Mecanum Drive Tank
 ## ECE 4180 Final Project S23
 ### Oscar Baglivio, Ray Daw, Yunhao Hu, Steven Zhao
 
-**Mechanum Drive Wheels** are designed similarly to tank wheels, allowing our vehicle to move forward and backward, as well as turn, but what makes them unique is the added ability to "strafe" or move side to side. This is thanks to the diagonal rollers, meaning that the wheels can exert force in the diagonal direction. With the proper combination of these forces, our vehicle can move **forward, backward, left, right**, as well as **rotate** about the **center** or **edge** of the vehicle.
+**Mecanum Drive Wheels** are designed similarly to tank wheels, allowing our vehicle to move forward and backward, as well as turn, but what makes them unique is the added ability to "strafe" or move side to side. This is thanks to the diagonal rollers, meaning that the wheels can exert force in the diagonal direction. With the proper combination of these forces, our vehicle can move **forward, backward, left, right**, as well as **rotate** about the **center** or **edge** of the vehicle.
 
 <img width="230" alt="Screen Shot 2023-04-28 at 2 22 03 PM" src="https://user-images.githubusercontent.com/113135441/235224360-a8931893-abb8-4909-a532-3a1c8ad1d264.png">
 
@@ -18,8 +18,13 @@ Our drive modes will be toggled in a state machine as follows:
 ### Driving
 **Driving Mode** allows the vehcile to move linearly foward/backward and turn about the rear axis left/right (similar to a standard car).
 
+### Learning Resources
+ [Wikipedia - Mecanum Wheel](https://en.wikipedia.org/wiki/Mecanum_wheel)
+ 
+ [How a Mecanum Drive Works](https://seamonsters-2605.github.io/archive/mecanum)
+
 ## Controls
-The vehicle will be controlled via the adafruit bluefruit bluetooth module coonnected to the BluefruitConnect app with the following controls:
+The vehicle will be controlled via the Adafruit Bluefruit Bluetooth module coonnected to the BluefruitConnect app with the following controls:
 
 <img width="442" alt="Screen Shot 2023-04-28 at 2 52 15 PM" src="https://user-images.githubusercontent.com/113135441/235229974-18c711cd-7dcc-404d-bbc3-14bc213e8f87.png">
 
@@ -34,6 +39,6 @@ The vehicle will be controlled via the adafruit bluefruit bluetooth module coonn
 | Number Pad      | Function
 | ----------- | ----------- | 
 | 1           | Mode Toggle   |   
-| 2           | Auto Toggle   |  
+| 2           | -----------   |  
 | 3           | Decrease Speed |
 | 4           | Inrease Speed   |    
