@@ -82,6 +82,26 @@ The vehicle will be controlled via the Adafruit Bluefruit Bluetooth module coonn
 | PWMB | P23 |
 | GND | GND |
 
+### Dual H-Bridge (right)
+| Dual H-Bridge Pin | mbed/Other Pin |
+| ----------------- | -------------- |
+| VM | 9V (9V Battery) |
+| VCC | mbed Vout (3V) |
+| GND | GND |
+| A01 | Front Right Motor (Positive Lead) |
+| A02 | Front Right Motor (Negative Lead) |
+| B02 | Back Right Motor (Negative Lead) |
+| B01 | Back Right Motor (Positive Lead) |
+| GND | GND |
+| PWMA | P22 |
+| AI2 | P18 |
+| AI1 | P17 |
+| STBY | mbed Vout (3V) |
+| BI1 | P19 |
+| BI2 | P20 |
+| PWMB | P21 |
+| GND | GND |
+
 ## Video Demonstrations
  [Control Demonstration](https://youtu.be/6uEOdRfjCMo)
   
