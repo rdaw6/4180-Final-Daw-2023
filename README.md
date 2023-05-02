@@ -17,6 +17,8 @@ Our drive modes will be toggled in a state machine as follows:
 **Tank Mode** allows the vehicle to move linearly foward/backward and rotate about its center clockwise/counterclockwise (similar to a tank).
 ### Driving
 **Driving Mode** allows the vehcile to move linearly foward/backward and turn about the rear axis left/right (similar to a standard car).
+### 360 Translational
+**Accelerometer (Tilt) Mode** allows vehicle to translate at any angle (small angles limited by the torque of weakly driven motors).
 
 ### Learning Resources
  [Wikipedia - Mecanum Wheel](https://en.wikipedia.org/wiki/Mecanum_wheel)
@@ -35,6 +37,9 @@ The vehicle will be controlled via the Adafruit Bluefruit Bluetooth module coonn
 | Down        | Backward    |Backward/Right|Backward       |Backward       |
 | Right       | Right Linear|Forward/Right|Clockwise Rotate |Right Turn      |
 | Left        | Left Linear |Backward/Left|Counterclockwise Rotate|Left Turn       |
+
+Accelerometer Mode uses the tilt direction of your phone to move in that direction.
+
 #### Number Pad Controls
 | Number Pad      | Function
 | ----------- | ----------- | 
