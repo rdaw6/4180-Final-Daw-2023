@@ -20,7 +20,7 @@ Our drive modes will be toggled in a state machine as follows:
 ### 360 Translational
 **Accelerometer (Tilt) Mode** allows vehicle to translate at any angle (small angles limited by the torque of weakly driven motors).
 
-### Learning Resources
+## Learning Resources
  [Wikipedia - Mecanum Wheel](https://en.wikipedia.org/wiki/Mecanum_wheel)
  
  [How a Mecanum Drive Works](https://seamonsters-2605.github.io/archive/mecanum)
